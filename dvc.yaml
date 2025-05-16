@@ -3,7 +3,7 @@ stages:
     cmd: python src/ChickenDiseaseClassification/pipeline/stage_01_data_ingestion.py
     deps:
       - src/ChickenDiseaseClassification/pipeline/stage_01_data_ingestion.py
-      - configs/config.yaml
+      - config/config.yaml
     outs:
       - artifacts/data_ingestion/data
     
@@ -12,7 +12,7 @@ stages:
     cmd: python src/ChickenDiseaseClassification/pipeline/stage_02_prepare_base_model.py
     deps:
       - src/ChickenDiseaseClassification/pipeline/stage_02_prepare_base_model.py
-      - configs/config.yaml
+      - config/config.yaml
     params:
       - IMAGE_SIZE
       - BATCH_SIZE 
@@ -31,7 +31,7 @@ stages:
     deps:
       - src/ChickenDiseaseClassification/pipeline/stage_03_training.py
       - src/ChickenDiseaseClassification/components/prepare_callbacks.py
-      - configs/config.yaml
+      - config/config.yaml
       - artifacts/prepare_base_model
       - artifacts/data_ingestion/data
     params:
@@ -50,10 +50,10 @@ stages:
       - artifacts/training/trained_model.h5
 
   model_evaluation:
-    cmd: python src/ChickenDiseaseClassification/pipeline/stage_04_model_evaluation.py
+    cmd: python src/ChickenDiseaseClassification/pipeline/stage_04_evaluation.py
     deps:
-      - src/ChickenDiseaseClassification/pipeline/stage_04_model_evaluation.py
-      - configs/config.yaml
+      - src/ChickenDiseaseClassification/pipeline/stage_04_evaluation.py
+      - config/config.yaml
       - artifacts/data_ingestion/data
       - artifacts/training/trained_model.h5
     params:
